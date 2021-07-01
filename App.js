@@ -1,7 +1,15 @@
 import 'react-native-gesture-handler'
 import { StatusBar } from 'expo-status-bar'
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, TextInput, View, Image, Alert } from 'react-native'
+import {
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+    Image,
+    Alert,
+    ActivityIndicator
+} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
@@ -58,22 +66,21 @@ function HomeScreen({ navigation }) {
             .then((response) => response.json())
             .then((json) => setData(json))
             .catch((error) => console.error(error))
-            .finally(() => setLoading(false))
     }, [])
 
     return (
         <View style={styles.container}>
             <StatusBar style="auto" />
-
-            {/* Logo */}
-            <View style={{}}>
+            <View>
+                {isLoading && (
+                    <ActivityIndicator size="large" color="#000000" />
+                )}
                 <Image
+                    onLoad={() => setLoading(false)}
                     source={require('./assets/mountains.jpg')}
                     style={styles.logo}
                 />
             </View>
-
-            {/* Input text & Button */}
             <View style={{ paddingTop: 50, alignItems: 'center' }}>
                 <TextInput style={styles.input} placeholder={data.title} />
                 <TextInput style={styles.input} placeholder="Password" />
