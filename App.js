@@ -13,20 +13,20 @@ import {
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import Button from './components/loginButton'
+import TabbedScreen from './app/screens/TabbedScreen'
+import Button from './app/components/loginButton'
 
 const Stack = createStackNavigator()
 
 export default function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen
-                    name="Home"
-                    component={HomeScreen}
-                    options={{ headerMode: 'none', headerShown: false }}
-                />
-                <Stack.Screen name="main" component={main} />
+            <Stack.Navigator
+                initialRouteName="Home"
+                screenOptions={{ headerMode: 'none', headerShown: false }}
+            >
+                <Stack.Screen name="Login" component={LoginScreen} />
+                <Stack.Screen name="main" component={TabbedScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     }
 })
 
-function HomeScreen({ navigation }) {
+function LoginScreen({ navigation }) {
     const [isLoading, setLoading] = useState(true)
     const [data, setData] = useState([])
 
@@ -77,7 +77,7 @@ function HomeScreen({ navigation }) {
                 )}
                 <Image
                     onLoad={() => setLoading(false)}
-                    source={require('./assets/mountains.jpg')}
+                    source={require('./app/assets/images/mountains.jpg')}
                     style={styles.logo}
                 />
             </View>
@@ -89,18 +89,6 @@ function HomeScreen({ navigation }) {
                     onPress={() => navigation.navigate('main')}
                 />
             </View>
-        </View>
-    )
-}
-
-function main({ navigation }) {
-    return (
-        <View style={styles.container}>
-            {/* <Button
-                title="Bruh"
-                onPress={() => navigation.navigate('main', { name: 'Faisal' })}
-            /> */}
-            <Text>Big bruh moment</Text>
         </View>
     )
 }
