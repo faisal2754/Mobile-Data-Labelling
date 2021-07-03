@@ -8,13 +8,14 @@ import {
     View,
     Image,
     Alert,
-    ActivityIndicator
+    ActivityIndicator,
+    Button
 } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
 import TabbedScreen from './app/screens/TabbedScreen'
-import Button from './app/components/loginButton'
+import LoginButton from './app/components/loginButton'
 
 const Stack = createStackNavigator()
 
@@ -22,11 +23,12 @@ export default function App() {
     return (
         <NavigationContainer>
             <Stack.Navigator
-                initialRouteName="Home"
+                initialRouteName="Login"
                 screenOptions={{ headerMode: 'none', headerShown: false }}
             >
                 <Stack.Screen name="Login" component={LoginScreen} />
-                <Stack.Screen name="main" component={TabbedScreen} />
+                <Stack.Screen name="Register" component={RegisterScreen} />
+                <Stack.Screen name="Home" component={TabbedScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     )
@@ -54,6 +56,14 @@ const styles = StyleSheet.create({
         borderRadius: 500
     }
 })
+
+function RegisterScreen({ navigation }) {
+    return (
+        <View style={styles.container}>
+            <Button title="Login" onPress={() => navigation.goBack()} />
+        </View>
+    )
+}
 
 function LoginScreen({ navigation }) {
     const [isLoading, setLoading] = useState(true)
@@ -84,9 +94,13 @@ function LoginScreen({ navigation }) {
             <View style={{ paddingTop: 50, alignItems: 'center' }}>
                 <TextInput style={styles.input} placeholder={data.title} />
                 <TextInput style={styles.input} placeholder="Password" />
-                <Button
+                <LoginButton
                     title="Log In"
-                    onPress={() => navigation.navigate('main')}
+                    onPress={() => navigation.navigate('Home')}
+                />
+                <Button
+                    title="Register"
+                    onPress={() => navigation.navigate('Register')}
                 />
             </View>
         </View>
