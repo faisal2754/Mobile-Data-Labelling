@@ -72,10 +72,10 @@ const resolvers = {
    Mutation: {
       //can destructure args here
       login: async (root, { email, password }) => {
-         const user = User.findOne({ email })
+         const user = await User.findOne({ email })
          return user
       },
-      signup: (root, { name, email, password, avatar = '' }) => {
+      signup: async (root, { name, email, password, avatar = '' }) => {
          const newUser = new User({
             name,
             email,
