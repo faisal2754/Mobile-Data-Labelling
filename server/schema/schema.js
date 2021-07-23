@@ -1,4 +1,5 @@
 const { gql } = require('apollo-server')
+const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 
 const books = [
@@ -12,13 +13,7 @@ const books = [
    }
 ]
 
-const tempUser = {
-   _id: '1',
-   email: 'bruh@bruh.com'
-}
-
 const typeDefs = gql`
-   # This "Book" type defines the queryable fields for every book in our data source.
    type Book {
       title: String
       author: String
@@ -30,15 +25,13 @@ const typeDefs = gql`
       email: String
       password: String
       avatar: String
+      jwt: String
    }
 
    #    type BruhType {
    #       lol: String
    #    }
 
-   # The "Query" type is special: it lists all of the available queries that
-   # clients can execute, along with the return type for each. In this
-   # case, the "books" query returns an array of zero or more Books (defined above).
    type Query {
       books: [Book]
       bruh: String
@@ -56,8 +49,6 @@ const typeDefs = gql`
    }
 `
 
-// Resolvers define the technique for fetching the types defined in the
-// schema. This resolver retrieves books from the "books" array above.
 const resolvers = {
    Query: {
       // root = parent
@@ -67,22 +58,38 @@ const resolvers = {
       bruh: () => {
          return 'yo'
       },
-      currentUser: () => tempUser
+      currentUser: (root, args, { user }) => {
+         return user
+      }
    },
    Mutation: {
       //can destructure args here
-      login: async (root, { email, password }) => {
+      login: async (root, { email, password }, ctx) => {
          const user = await User.findOne({ email })
+
+         if (!user) throw new Error('Email not found')
+         if (user.password !== password) throw new Error('Password incorrect')
+
+         user.jwt = jwt.sign({ _id: user._id }, process.env.JWT_SECRET)
+
          return user
       },
-      signup: async (root, { name, email, password, avatar = '' }) => {
+      signup: async (root, { name, email, password, avatar = '' }, ctx) => {
+         const existingUser = await User.findOne({ email })
+
+         if (existingUser) throw new Error('Email already used')
+
          const newUser = new User({
             name,
             email,
             password,
             avatar
          })
-         return newUser.save()
+         const user = await newUser.save()
+
+         user.jwt = jwt.sign({ _id: user._id }, process.env.JWT_SECRET)
+
+         return user
       }
    }
 }
