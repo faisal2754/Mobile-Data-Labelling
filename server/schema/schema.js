@@ -2,23 +2,7 @@ const { gql } = require('apollo-server')
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 
-const books = [
-   {
-      title: 'The Awakening',
-      author: 'Kate Chopin'
-   },
-   {
-      title: 'City of Glass',
-      author: 'Paul Auster'
-   }
-]
-
 const typeDefs = gql`
-   type Book {
-      title: String
-      author: String
-   }
-
    type User {
       _id: String
       name: String
@@ -28,13 +12,7 @@ const typeDefs = gql`
       jwt: String
    }
 
-   #    type BruhType {
-   #       lol: String
-   #    }
-
    type Query {
-      books: [Book]
-      bruh: String
       currentUser: User
    }
 
@@ -51,20 +29,12 @@ const typeDefs = gql`
 
 const resolvers = {
    Query: {
-      // root = parent
-      books: (root, args, context) => {
-         return books
-      },
-      bruh: () => {
-         return 'yo'
-      },
-      currentUser: (root, args, { user }) => {
+      currentUser: (_, __, { user }) => {
          return user
       }
    },
    Mutation: {
-      //can destructure args here
-      login: async (root, { email, password }, ctx) => {
+      login: async (_, { email, password }, ctx) => {
          const user = await User.findOne({ email })
 
          if (!user) throw new Error('Email not found')
@@ -74,7 +44,7 @@ const resolvers = {
 
          return user
       },
-      signup: async (root, { name, email, password, avatar = '' }, ctx) => {
+      signup: async (_, { name, email, password, avatar = '' }) => {
          const existingUser = await User.findOne({ email })
 
          if (existingUser) throw new Error('Email already used')
