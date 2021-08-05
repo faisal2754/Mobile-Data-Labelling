@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken')
-const User = require('../models/User')
+import jwt from 'jsonwebtoken'
+import User from '../models/User.js'
 
 const getUser = async (authorization) => {
    const bearerLength = 'Bearer '.length
@@ -33,4 +33,4 @@ const getUser = async (authorization) => {
    return null
 }
 
-module.exports = { getUser }
+export { getUser }

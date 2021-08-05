@@ -1,8 +1,10 @@
-const { ApolloServer } = require('apollo-server')
-const mongoose = require('mongoose')
-require('dotenv').config()
-const { typeDefs, resolvers } = require('./schema/schema')
-const { getUser } = require('./utils/getUser')
+import { ApolloServer } from 'apollo-server'
+import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+import { typeDefs, resolvers } from './schema/schema.js'
+import { getUser } from './utils/getUser.js'
+
+dotenv.config()
 
 mongoose.connect(
    process.env.DB_CONNECT,

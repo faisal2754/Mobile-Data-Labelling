@@ -1,6 +1,6 @@
-const { gql } = require('apollo-server')
-const jwt = require('jsonwebtoken')
-const User = require('../models/User')
+import { gql } from 'apollo-server'
+import jwt from 'jsonwebtoken'
+import User from '../models/User.js'
 
 const typeDefs = gql`
    type User {
@@ -64,4 +64,4 @@ const resolvers = {
    }
 }
 
-module.exports = { typeDefs, resolvers }
+export { typeDefs, resolvers }
