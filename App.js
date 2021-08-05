@@ -1,30 +1,28 @@
-import 'react-native-gesture-handler'
-import { StatusBar } from 'expo-status-bar'
-import React, { useState, useEffect } from 'react'
-import {
-   StyleSheet,
-   Text,
-   TextInput,
-   View,
-   Image,
-   Alert,
-   ActivityIndicator,
-   Button
-} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+import { StatusBar } from 'expo-status-bar'
+import React, { useEffect, useState } from 'react'
+import {
+   ActivityIndicator,
+   Button,
+   Image,
+   StyleSheet,
+   TextInput,
+   View
+} from 'react-native'
+import 'react-native-gesture-handler'
 
+import LoginButton from './app/components/LoginButton'
 import TabbedScreen from './app/screens/TabbedScreen'
-import LoginButton from './app/components/loginButton'
 
 const Stack = createStackNavigator()
 
-export default function App() {
+const App = () => {
    return (
       <NavigationContainer>
          <Stack.Navigator
             initialRouteName="Login"
-            screenOptions={{ headerMode: 'none', headerShown: false }}
+            screenOptions={{ headerShown: false }}
          >
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />
@@ -57,7 +55,7 @@ const styles = StyleSheet.create({
    }
 })
 
-function RegisterScreen({ navigation }) {
+const RegisterScreen = ({ navigation }) => {
    return (
       <View style={styles.container}>
          <Button title="Login" onPress={() => navigation.goBack()} />
@@ -65,7 +63,7 @@ function RegisterScreen({ navigation }) {
    )
 }
 
-function LoginScreen({ navigation }) {
+const LoginScreen = ({ navigation }) => {
    const [isLoading, setLoading] = useState(true)
    const [data, setData] = useState([])
 
@@ -104,3 +102,5 @@ function LoginScreen({ navigation }) {
       </View>
    )
 }
+
+export default App

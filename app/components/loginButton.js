@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View, StyleSheet, Pressable } from 'react-native'
 
-export default function Button(props) {
+const LoginButton = (props) => {
    const { onPress, title = 'Save' } = props
    return (
       <Pressable style={styles.button} onPress={onPress}>
@@ -29,3 +29,5 @@ const styles = StyleSheet.create({
       color: 'white'
    }
 })
+
+export default LoginButton

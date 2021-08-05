@@ -6,7 +6,7 @@ import ProfileScreen from './ProfileScreen'
 
 const Tab = createBottomTabNavigator()
 
-function TabbedScreen() {
+const TabbedScreen = () => {
    return (
       <Tab.Navigator>
          <Tab.Screen name="Home" component={HomeScreen} />

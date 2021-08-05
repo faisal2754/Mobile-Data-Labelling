@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 
 import styles from '../assets/styles/bruh'
 
-function ProfileScreen() {
+const ProfileScreen = () => {
    return (
       <View style={styles.container}>
          <Text>Profile page</Text>
