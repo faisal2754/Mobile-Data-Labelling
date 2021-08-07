@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import 'react-native-gesture-handler'
 
-import LoginButton from './app/components/LoginButton'
+import LoginButton from './app/components/loginButton'
 import TabbedScreen from './app/screens/TabbedScreen'
 
 const Stack = createStackNavigator()
